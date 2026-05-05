@@ -115,6 +115,11 @@ const MeetingTypeList = () => {
             role: 'admin',
           })),
         },
+        settings_override: {
+          recording: {
+            mode: 'available',
+          },
+        },
       });
 
       setCallDetail(call);

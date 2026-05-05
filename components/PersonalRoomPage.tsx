@@ -48,6 +48,11 @@ const PersonalRoomPage = () => {
         data: {
           starts_at: new Date().toISOString(),
         },
+        settings_override: {
+          recording: {
+            mode: 'available',
+          },
+        },
       });
     }
 

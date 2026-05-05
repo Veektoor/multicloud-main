@@ -7,6 +7,7 @@ import {
   CallParticipantsList,
   CallStatsButton,
   CallingState,
+  OwnCapability,
   PaginatedGridLayout,
   SpeakerLayout,
   useCall,
@@ -81,16 +82,24 @@ const MeetingRoom = () => {
   const [showChat, setShowChat] = useState(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const [isRecordingActionPending, setIsRecordingActionPending] = useState(false);
+  const [recordingError, setRecordingError] = useState<string | null>(null);
   const [isUploadingDocument, setIsUploadingDocument] = useState(false);
   const [isUploadingMinutes, setIsUploadingMinutes] = useState(false);
-  const { useCallCallingState, useIsCallRecordingInProgress } = useCallStateHooks();
+  const { useCallCallingState, useIsCallRecordingInProgress, useHasPermissions } =
+    useCallStateHooks();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const minuteFileInputRef = useRef<HTMLInputElement>(null);
 
   const callingState = useCallCallingState();
   const isRecording = useIsCallRecordingInProgress();
+  const canStartRecording = useHasPermissions(OwnCapability.START_RECORD_CALL);
+  const canStopRecording = useHasPermissions(OwnCapability.STOP_RECORD_CALL);
   const metadata = getMeetingMetadata(call);
   const isModerator = isMeetingModerator(call, user?.id);
+  const recordingMode = call.state.settings?.recording?.mode;
+  const isRecordingConfigured =
+    recordingMode === 'available' || recordingMode === 'auto-on';
+  const canManageRecording = isRecording ? canStopRecording : canStartRecording;
   const [documents, setDocuments] = useState<MeetingDocument[]>(metadata.documents);
   const [minuteFiles, setMinuteFiles] = useState<MeetingDocument[]>(metadata.minuteFiles);
   const meetingLink = `${getAppBaseUrl()}/meeting/${call?.id}`;
@@ -127,6 +136,7 @@ const MeetingRoom = () => {
   const toggleRecording = async () => {
     try {
       setIsRecordingActionPending(true);
+      setRecordingError(null);
       if (isRecording) {
         await call.stopRecording();
         archiveMeeting(call, `${getAppBaseUrl()}/meeting/${call.id}`);
@@ -159,7 +169,23 @@ const MeetingRoom = () => {
       }
     } catch (error) {
       console.error(error);
-      toast({ title: 'Recording action failed' });
+      const message =
+        error instanceof Error ? error.message : 'Recording action failed';
+      const normalizedMessage = message.toLowerCase();
+      const details = normalizedMessage.includes('storage')
+        ? 'Stream recording storage is not configured yet.'
+        : normalizedMessage.includes('permission') ||
+            normalizedMessage.includes('capability')
+          ? 'Your Stream role for this call cannot start recordings.'
+          : normalizedMessage.includes('recording disabled') ||
+              normalizedMessage.includes('recording is disabled')
+            ? 'Recording is disabled for this call type.'
+            : normalizedMessage.includes('inactive call')
+              ? 'Join the call before starting the recording.'
+              : message;
+
+      setRecordingError(details);
+      toast({ title: details });
     } finally {
       setIsRecordingActionPending(false);
     }
@@ -320,7 +346,9 @@ const MeetingRoom = () => {
               <div className="space-y-3">
                 <p className="text-sm font-semibold text-slate-400">Recording</p>
                 <button
-                  disabled={!isModerator || isRecordingActionPending}
+                  disabled={
+                    !canManageRecording || !isRecordingConfigured || isRecordingActionPending
+                  }
                   onClick={toggleRecording}
                   className="w-full rounded-lg bg-white px-4 py-2 text-sm font-medium text-slate-950 transition disabled:cursor-not-allowed disabled:bg-slate-600 hover:bg-white/90"
                 >
@@ -330,6 +358,20 @@ const MeetingRoom = () => {
                       ? 'Stop recording'
                       : 'Start recording'}
                 </button>
+                {!isRecordingConfigured && (
+                  <p className="text-xs text-amber-300">
+                    Recording is disabled for this call. New meetings created from now on will
+                    have recording enabled.
+                  </p>
+                )}
+                {isRecordingConfigured && !canManageRecording && (
+                  <p className="text-xs text-slate-400">
+                    Stream has not granted this user permission to manage recordings for this call.
+                  </p>
+                )}
+                {recordingError && (
+                  <p className="text-xs text-red-300">{recordingError}</p>
+                )}
               </div>
             </div>
 
@@ -501,4 +543,3 @@ const MeetingRoom = () => {
 };
 
 export default MeetingRoom;
-
