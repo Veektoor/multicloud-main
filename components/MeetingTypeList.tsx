@@ -114,10 +114,10 @@ const MeetingTypeList = () => {
             user_id: memberId,
             role: 'admin',
           })),
-        },
-        settings_override: {
-          recording: {
-            mode: 'available',
+          settings_override: {
+            recording: {
+              mode: 'available',
+            },
           },
         },
       });

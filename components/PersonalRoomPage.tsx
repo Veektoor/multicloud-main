@@ -47,10 +47,10 @@ const PersonalRoomPage = () => {
       await newCall.getOrCreate({
         data: {
           starts_at: new Date().toISOString(),
-        },
-        settings_override: {
-          recording: {
-            mode: 'available',
+          settings_override: {
+            recording: {
+              mode: 'available',
+            },
           },
         },
       });

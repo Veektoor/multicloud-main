@@ -96,7 +96,7 @@ const MeetingRoom = () => {
   const canStopRecording = useHasPermissions(OwnCapability.STOP_RECORD_CALL);
   const metadata = getMeetingMetadata(call);
   const isModerator = isMeetingModerator(call, user?.id);
-  const recordingMode = call.state.settings?.recording?.mode;
+  const recordingMode = call?.state.settings?.recording?.mode;
   const isRecordingConfigured =
     recordingMode === 'available' || recordingMode === 'auto-on';
   const canManageRecording = isRecording ? canStopRecording : canStartRecording;
