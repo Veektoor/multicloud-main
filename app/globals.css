@@ -1,0 +1,215 @@
+/* Add the Stream Chat CSS here manually */
+@import url('https://cdn.jsdelivr.net/npm/stream-chat-react/dist/css/style.css');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background:
+    radial-gradient(circle at top, rgba(56, 189, 248, 0.12), transparent 22%),
+    linear-gradient(180deg, #060b16 0%, #08111f 100%);
+  color: white;
+}
+
+/* ======== stream css overrides ======== */
+.str-video__call-stats {
+  max-width: 500px;
+  position: relative;
+}
+
+.str-video__speaker-layout__wrapper {
+  max-height: 700px;
+}
+
+.str-video__participant-details {
+  color: white;
+}
+
+.str-video__menu-container {
+  color: white;
+}
+
+.str-video__notification {
+  color: white;
+}
+
+.str-video__participant-list {
+  background-color: #0f1729;
+  padding: 10px;
+  border-radius: 20px;
+  color: white;
+  height: 100%;
+}
+
+.str-video__call-controls__button {
+  height: 40px;
+}
+
+.glassmorphism {
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+.glassmorphism2 {
+  background: rgba(18, 17, 17, 0.25);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ==== clerk class override ===== */
+
+.cl-userButtonPopoverActionButtonIcon {
+  color: white;
+}
+
+.cl-logoBox {
+  height: 40px;
+}
+.cl-dividerLine {
+  background: #252a41;
+  height: 2px;
+}
+
+.cl-socialButtonsIconButton {
+  border: 3px solid #565761;
+}
+
+.cl-internal-wkkub3 {
+  color: white;
+}
+.cl-userButtonPopoverActionButton {
+  color: white;
+}
+
+/* =============================== */
+
+@layer utilities {
+  .flex-center {
+    @apply flex justify-center items-center;
+  }
+
+  .flex-between {
+    @apply flex justify-between items-center;
+  }
+}
+
+/* animation */
+
+.show-block {
+  width: 100%;
+  max-width: 350px;
+  display: block;
+  animation: show 0.7s forwards linear;
+}
+
+@keyframes show {
+  0% {
+    animation-timing-function: ease-in;
+    width: 0%;
+  }
+
+  100% {
+    animation-timing-function: ease-in;
+    width: 100%;
+  }
+}
+/* Custom Scrollbar for Messages */
+.stream-chat .str-chat__list {
+  scrollbar-width: thin;
+  scrollbar-color: #334155 #0f1729;
+  background: transparent !important;
+  height: 100%;
+}
+
+.stream-chat .str-chat__avatar,
+.stream-chat .str-chat__avatar-fallback,
+.stream-chat .str-chat__avatar-image,
+.stream-chat .str-chat__message-team-avatar,
+.stream-chat .str-chat__message-team-avatar-container,
+.stream-chat .str-chat__message-avatars,
+.stream-chat .str-chat__message-simple-status {
+  display: none !important;
+}
+
+.stream-chat .str-chat__message-data {
+  margin-bottom: 4px !important;
+}
+
+.stream-chat .str-chat__message-data__name,
+.stream-chat .str-chat__message-simple-name,
+.stream-chat .str-chat__message-author,
+.stream-chat .str-chat__message-team-author {
+  display: block !important;
+  font-size: 10px !important;
+  line-height: 1.3 !important;
+  color: #94a3b8 !important;
+  font-weight: 500 !important;
+  margin-bottom: 4px !important;
+}
+
+/* Custom Message Bubble */
+.stream-chat .str-chat__message-text-inner {
+  background: #172033 !important;
+  color: #e2e8f0 !important;
+  padding: 12px 14px;
+  border-radius: 16px;
+}
+
+.stream-chat .str-chat__message-simple__actions__action--options,
+.stream-chat .str-chat__message-simple__actions__action--reaction,
+.stream-chat .str-chat__message-simple__actions,
+.stream-chat .str-chat__message-input-actions-container,
+.stream-chat .str-chat__file-input-container,
+.stream-chat .str-chat__file-input-label,
+.stream-chat .str-chat__attachment-list,
+.stream-chat .str-chat__attachment,
+.stream-chat .str-chat__attachment-selector__button,
+.stream-chat .str-chat__send-button {
+  display: none !important;
+}
+
+/* Input Box Customization */
+.stream-chat .str-chat__textarea,
+.stream-chat .str-chat__textarea textarea,
+.stream-chat .str-chat__message-input,
+.stream-chat,
+.stream-chat-channel,
+.str-chat__channel,
+.str-chat__container,
+.str-chat__main-panel,
+.str-chat__message-list-scroll {
+  background: #111a2f !important;
+  color: #e2e8f0 !important;
+  border: none !important;
+}
+
+.stream-chat,
+.stream-chat-channel,
+.str-chat__channel,
+.str-chat__container,
+.str-chat__main-panel {
+  height: 100% !important;
+}
+
+.stream-chat .str-chat__textarea,
+.stream-chat .str-chat__textarea textarea,
+.stream-chat .str-chat__message-input {
+  border-radius: 16px;
+}
+
+.chat-scroll-area .str-chat__list-notifications,
+.chat-scroll-area .str-chat__message-list-scroll {
+  background: transparent !important;
+}
