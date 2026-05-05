@@ -17,7 +17,7 @@ export const validateMeetingLink = (link: string): boolean => {
 };
 
 export const validatePhoneNumber = (phone: string): boolean => {
-  const phoneRegex = /^[\d\s\-\+\(\)]+$/;
+  const phoneRegex = /^[\d\s+()-]+$/;
   return phoneRegex.test(phone) && phone.replace(/\D/g, '').length >= 10;
 };
 
@@ -30,8 +30,10 @@ export const validateFileSize = (
 };
 
 export const validateFileName = (fileName: string): boolean => {
-  const invalidChars = /[<>:"|?*\x00-\x1f]/g;
-  return !invalidChars.test(fileName);
+  const invalidChars = new Set(['<', '>', ':', '"', '|', '?', '*']);
+  return !Array.from(fileName).some(
+    (character) => invalidChars.has(character) || character.charCodeAt(0) < 32,
+  );
 };
 
 export const getMeetingIdFromLink = (link: string): string | null => {

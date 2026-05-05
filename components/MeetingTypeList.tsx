@@ -9,7 +9,7 @@ import { AlertCircle, CheckCircle } from 'lucide-react';
 
 import { buildMeetingCustomData } from '@/lib/meeting';
 import { copyTextToClipboard, getAppBaseUrl } from '@/lib/browser';
-import { validateMeetingLink, getMeetingIdFromLink } from '@/lib/validation';
+import { validateMeetingLink } from '@/lib/validation';
 import HomeCard from './HomeCard';
 import MeetingModal from './MeetingModal';
 import Loader from './Loader';
