@@ -5,11 +5,20 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@clerk/nextjs';
 import { Call, useStreamVideoClient } from '@stream-io/video-react-sdk';
-import { AlertCircle, CheckCircle } from 'lucide-react';
+import {
+  AlertCircle,
+  Building2,
+  CalendarClock,
+  CheckCircle,
+  Link2,
+  ShieldCheck,
+  UserRound,
+} from 'lucide-react';
 
 import { buildMeetingCustomData } from '@/lib/meeting';
 import { copyTextToClipboard, getAppBaseUrl } from '@/lib/browser';
 import { validateMeetingLink } from '@/lib/validation';
+import { formatNairobiDateTime } from '@/lib/datetime';
 import HomeCard from './HomeCard';
 import MeetingModal from './MeetingModal';
 import Loader from './Loader';
@@ -38,6 +47,9 @@ const MeetingTypeList = () => {
 
   const moderatorIds = user?.id ? [user.id] : [];
   const meetingLink = callDetail ? `${getAppBaseUrl()}/meeting/${callDetail.id}` : '';
+  const organizerName =
+    user?.fullName || user?.primaryEmailAddress?.emailAddress || 'MoMEET organizer';
+  const meetingTitle = values.description || 'MoMEET Meeting';
 
   const validateAndJoinMeeting = () => {
     setLinkError('');
@@ -258,13 +270,72 @@ const MeetingTypeList = () => {
           className="text-center"
           buttonText="Copy Meeting Link"
         >
-          <div className="space-y-3 text-left text-sm text-slate-300">
-            <div className="flex items-start gap-2 rounded-lg border border-green-500/20 bg-green-500/10 p-3">
-              <CheckCircle className="mt-0.5 shrink-0 text-green-500" size={18} />
-              <p>Your meeting has been scheduled successfully.</p>
-            </div>
-            <div className="break-all rounded-lg bg-dark-3 p-3 text-blue-400">
-              {meetingLink}
+          <div className="space-y-4 text-left">
+            <div className="overflow-hidden rounded-xl border border-white/10 bg-[linear-gradient(135deg,rgba(15,23,42,0.96),rgba(17,24,39,0.9))] shadow-2xl shadow-black/20">
+              <div className="border-b border-white/10 bg-white/[0.03] px-4 py-3">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.18em] text-cyan-200">
+                    <Building2 size={15} />
+                    Corporate invitation
+                  </div>
+                  <div className="flex items-center gap-1.5 rounded-full border border-green-400/25 bg-green-400/10 px-2.5 py-1 text-xs font-medium text-green-200">
+                    <CheckCircle size={14} />
+                    Scheduled
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4 p-4">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.14em] text-slate-500">
+                    Meeting
+                  </p>
+                  <h3 className="mt-1 text-xl font-semibold leading-7 text-white">
+                    {meetingTitle}
+                  </h3>
+                  <p className="mt-1 text-sm text-slate-400">
+                    Personalized invite prepared by {organizerName}
+                  </p>
+                </div>
+
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="flex items-start gap-3 rounded-lg border border-white/10 bg-white/[0.04] p-3">
+                    <UserRound className="mt-0.5 shrink-0 text-cyan-200" size={18} />
+                    <div>
+                      <p className="text-xs text-slate-500">Host</p>
+                      <p className="mt-0.5 text-sm font-medium text-slate-100">
+                        {organizerName}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3 rounded-lg border border-white/10 bg-white/[0.04] p-3">
+                    <CalendarClock className="mt-0.5 shrink-0 text-cyan-200" size={18} />
+                    <div>
+                      <p className="text-xs text-slate-500">Schedule</p>
+                      <p className="mt-0.5 text-sm font-medium text-slate-100">
+                        {formatNairobiDateTime(values.dateTime)}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="rounded-lg border border-cyan-300/20 bg-cyan-300/[0.06] p-3">
+                  <div className="mb-2 flex items-center justify-between gap-3">
+                    <div className="flex items-center gap-2 text-sm font-medium text-cyan-100">
+                      <Link2 size={16} />
+                      Invitation link
+                    </div>
+                    <div className="flex items-center gap-1.5 text-xs text-slate-400">
+                      <ShieldCheck size={14} className="text-green-300" />
+                      Secure access
+                    </div>
+                  </div>
+                  <p className="break-all rounded-md border border-white/10 bg-slate-950/50 px-3 py-2 font-mono text-xs leading-5 text-cyan-100">
+                    {meetingLink}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </MeetingModal>
