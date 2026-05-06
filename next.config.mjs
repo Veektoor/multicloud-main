@@ -93,10 +93,6 @@ const nextConfig = {
   compress: true,
   swcMinify: true,
 
-  // Experimental features for performance
-  experimental: {
-    optimizePackageImports: ['@stream-io/video-react-sdk', 'lucide-react'],
-  },
 };
 
 export default nextConfig;

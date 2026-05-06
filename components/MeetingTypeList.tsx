@@ -117,6 +117,7 @@ const MeetingTypeList = () => {
           settings_override: {
             recording: {
               mode: 'available',
+              quality: '720p',
             },
           },
         },
