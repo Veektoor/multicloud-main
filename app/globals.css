@@ -175,8 +175,7 @@ body {
 .stream-chat .str-chat__file-input-label,
 .stream-chat .str-chat__attachment-list,
 .stream-chat .str-chat__attachment,
-.stream-chat .str-chat__attachment-selector__button,
-.stream-chat .str-chat__send-button {
+.stream-chat .str-chat__attachment-selector__button {
   display: none !important;
 }
 
@@ -212,4 +211,327 @@ body {
 .chat-scroll-area .str-chat__list-notifications,
 .chat-scroll-area .str-chat__message-list-scroll {
   background: transparent !important;
+}
+
+.momeet-chat .str-chat__message-input {
+  padding: 0 !important;
+  background: transparent !important;
+}
+
+.momeet-chat .str-chat__message-input-inner,
+.momeet-chat .str-chat__message-input-wrapper {
+  position: relative !important;
+  align-items: flex-end !important;
+  gap: 6px !important;
+  min-height: 42px !important;
+}
+
+.momeet-chat .str-chat__message-textarea-container {
+  width: 100% !important;
+  min-height: 46px !important;
+  padding: 3px !important;
+  border: 1px solid rgba(103, 232, 249, 0.24) !important;
+  border-radius: 15px !important;
+  background:
+    linear-gradient(135deg, rgba(14, 120, 249, 0.18), rgba(15, 23, 42, 0.98)),
+    rgba(15, 23, 42, 0.96) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 10px 26px rgba(2, 6, 23, 0.32) !important;
+}
+
+.momeet-chat .str-chat__message-textarea-with-emoji-picker {
+  min-height: 40px !important;
+  align-items: flex-end !important;
+  border-radius: 12px !important;
+  background: rgba(2, 6, 23, 0.42) !important;
+  padding: 0 !important;
+}
+
+.momeet-chat .str-chat__textarea {
+  min-height: 42px !important;
+  border: 1px solid rgba(103, 232, 249, 0.16) !important;
+  background: rgba(8, 17, 32, 0.96) !important;
+}
+
+.momeet-chat .str-chat__message-textarea,
+.momeet-chat .str-chat__textarea textarea {
+  width: 100% !important;
+  min-height: 40px !important;
+  max-height: 92px !important;
+  padding: 10px 44px 10px 12px !important;
+  border: none !important;
+  background: transparent !important;
+  color: #f8fbff !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+  outline: none !important;
+}
+
+.momeet-chat .str-chat__message-textarea::placeholder,
+.momeet-chat .str-chat__textarea textarea::placeholder {
+  color: #9fb0c8 !important;
+}
+
+.momeet-chat .str-chat__message-textarea-container:focus-within {
+  border-color: rgba(103, 232, 249, 0.52) !important;
+  background:
+    linear-gradient(135deg, rgba(14, 120, 249, 0.28), rgba(15, 23, 42, 1)),
+    rgba(15, 23, 42, 1) !important;
+  box-shadow:
+    0 0 0 2px rgba(14, 120, 249, 0.18),
+    0 14px 32px rgba(2, 6, 23, 0.38) !important;
+}
+
+.momeet-chat .str-chat__send-button {
+  position: absolute !important;
+  right: 6px !important;
+  bottom: 6px !important;
+  display: inline-flex !important;
+  width: 30px !important;
+  height: 30px !important;
+  min-width: 30px !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 8px !important;
+  background: #0e78f9 !important;
+  color: white !important;
+  padding: 0 !important;
+  z-index: 2 !important;
+}
+
+.momeet-chat .str-chat__send-button svg,
+.momeet-chat .str-chat__message-input svg,
+.momeet-chat .str-chat__message-simple__actions svg {
+  width: 15px !important;
+  height: 15px !important;
+}
+
+.momeet-chat .str-chat__send-button:disabled {
+  opacity: 0.45 !important;
+}
+
+.momeet-chat .str-chat__list {
+  padding: 10px 8px !important;
+}
+
+.momeet-chat .str-chat__ul,
+.momeet-chat .str-chat__message-list-scroll {
+  background: transparent !important;
+}
+
+.momeet-chat .str-chat__message,
+.momeet-chat .str-chat__message-simple,
+.momeet-chat .str-chat__li {
+  margin-block: 10px !important;
+  padding-inline: 2px !important;
+}
+
+.momeet-chat .str-chat__message-inner {
+  display: grid !important;
+  grid-template-columns: 22px minmax(0, 1fr) !important;
+  grid-template-areas:
+    "avatar bubble"
+    ". meta" !important;
+  align-items: end !important;
+  column-gap: 8px !important;
+  row-gap: 3px !important;
+  width: 100% !important;
+}
+
+.momeet-chat .str-chat__message--me .str-chat__message-inner {
+  grid-template-columns: minmax(0, 1fr) 22px !important;
+  grid-template-areas:
+    "bubble avatar"
+    "meta ." !important;
+  justify-items: end !important;
+}
+
+.momeet-chat .str-chat__avatar,
+.momeet-chat .str-chat__avatar-fallback,
+.momeet-chat .str-chat__avatar-image,
+.momeet-chat .str-chat__message-team-avatar,
+.momeet-chat .str-chat__message-team-avatar-container,
+.momeet-chat .str-chat__message-avatars {
+  display: flex !important;
+}
+
+.momeet-chat .str-chat__avatar {
+  --str-chat__avatar-size: 20px !important;
+  overflow: hidden !important;
+  flex: 0 0 20px !important;
+  width: 20px !important;
+  min-width: 20px !important;
+  max-width: 20px !important;
+  height: 20px !important;
+  min-height: 20px !important;
+  max-height: 20px !important;
+  line-height: 20px !important;
+  border: 1px solid rgba(103, 232, 249, 0.28) !important;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, #0f2a3d, #172033) !important;
+  color: #cffafe !important;
+  font-size: 9px !important;
+  font-weight: 700 !important;
+}
+
+.momeet-chat .str-chat__avatar-image,
+.momeet-chat .str-chat__avatar-fallback {
+  width: 100% !important;
+  min-width: 100% !important;
+  max-width: 100% !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  max-height: 100% !important;
+  border-radius: inherit !important;
+  object-fit: cover !important;
+  line-height: 20px !important;
+}
+
+.momeet-chat .str-chat__message-team-avatar,
+.momeet-chat .str-chat__message-team-avatar-container,
+.momeet-chat .str-chat__message-avatars {
+  width: 20px !important;
+  min-width: 20px !important;
+  max-width: 20px !important;
+  grid-area: avatar !important;
+  align-self: end !important;
+  justify-self: center !important;
+}
+
+.momeet-chat .str-chat__avatar--message-status,
+.momeet-chat .stream-chat__avatar--message-status {
+  --str-chat__avatar-size: 12px !important;
+  flex-basis: 12px !important;
+  width: 12px !important;
+  min-width: 12px !important;
+  max-width: 12px !important;
+  height: 12px !important;
+  min-height: 12px !important;
+  max-height: 12px !important;
+}
+
+.momeet-chat .str-chat__message-bubble {
+  grid-area: bubble !important;
+  width: fit-content !important;
+  max-width: min(78%, 320px) !important;
+  min-width: 0 !important;
+  justify-self: start !important;
+}
+
+.momeet-chat .str-chat__message--me .str-chat__message-bubble {
+  margin-left: auto !important;
+  justify-self: end !important;
+}
+
+.momeet-chat .str-chat__message-text-inner {
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background: linear-gradient(135deg, rgba(23, 32, 51, 0.98), rgba(15, 23, 42, 0.96)) !important;
+  color: #e5eefb !important;
+  padding: 10px 12px !important;
+  border-radius: 14px 14px 14px 5px !important;
+  box-shadow: 0 10px 28px rgba(2, 6, 23, 0.24) !important;
+  font-size: 13px !important;
+  line-height: 1.45 !important;
+}
+
+.momeet-chat .str-chat__message--me .str-chat__message-text-inner {
+  border-color: rgba(14, 120, 249, 0.26) !important;
+  background: linear-gradient(135deg, rgba(14, 120, 249, 0.95), rgba(12, 84, 180, 0.92)) !important;
+  color: white !important;
+  border-radius: 14px 14px 5px 14px !important;
+}
+
+.momeet-chat .str-chat__message-data,
+.momeet-chat .str-chat__message-metadata,
+.momeet-chat .str-chat__custom-message-metadata {
+  grid-area: meta !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 5px !important;
+  margin-top: 4px !important;
+  color: #7f8ea3 !important;
+  font-size: 10px !important;
+  line-height: 1.2 !important;
+  width: fit-content !important;
+  max-width: min(78%, 320px) !important;
+  justify-self: start !important;
+  padding-left: 2px !important;
+}
+
+.momeet-chat .str-chat__message--me .str-chat__message-data,
+.momeet-chat .str-chat__message--me .str-chat__message-metadata,
+.momeet-chat .str-chat__message--me .str-chat__custom-message-metadata {
+  justify-content: flex-end !important;
+  justify-self: end !important;
+  padding-left: 0 !important;
+  padding-right: 2px !important;
+}
+
+.momeet-chat .str-chat__message-simple-name,
+.momeet-chat .str-chat__message-sender-name,
+.momeet-chat .str-chat__message-author,
+.momeet-chat .str-chat__message-team-author {
+  color: #b6c5d8 !important;
+  font-size: 10px !important;
+  font-weight: 600 !important;
+  line-height: 1.2 !important;
+}
+
+.momeet-chat .str-chat__message-simple-timestamp,
+.momeet-chat time {
+  color: #7f8ea3 !important;
+  font-size: 10px !important;
+}
+
+.momeet-chat .str-chat__message-simple-status,
+.momeet-chat .str-chat__message-status {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 3px !important;
+  color: #67e8f9 !important;
+  font-size: 10px !important;
+  line-height: 1 !important;
+}
+
+.momeet-chat .str-chat__message-simple-status svg,
+.momeet-chat .str-chat__message-status svg {
+  width: 11px !important;
+  height: 11px !important;
+}
+
+.momeet-chat .str-chat__message-simple-status svg path,
+.momeet-chat .str-chat__message-status svg path {
+  fill: #67e8f9 !important;
+}
+
+.momeet-chat .str-chat__typing-indicator {
+  width: fit-content !important;
+  max-width: calc(100% - 32px) !important;
+  margin: 8px 0 4px 30px !important;
+  padding: 7px 10px !important;
+  border: 1px solid rgba(103, 232, 249, 0.22) !important;
+  border-radius: 999px !important;
+  background: linear-gradient(135deg, rgba(14, 120, 249, 0.18), rgba(15, 23, 42, 0.96)) !important;
+  color: #c7d7ea !important;
+  box-shadow: 0 8px 22px rgba(2, 6, 23, 0.28) !important;
+  font-size: 11px !important;
+  line-height: 1.2 !important;
+}
+
+.momeet-chat .str-chat__typing-indicator__text {
+  color: #d9e8fb !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+}
+
+.momeet-chat .str-chat__typing-indicator__dots {
+  gap: 3px !important;
+}
+
+.momeet-chat .str-chat__typing-indicator__dot {
+  width: 5px !important;
+  height: 5px !important;
+  background-color: #67e8f9 !important;
+  box-shadow: 0 0 8px rgba(103, 232, 249, 0.6) !important;
 }

@@ -1,6 +1,6 @@
 'use client';
 
-import { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useEffect, useMemo, useRef, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import {
   CallControls,
@@ -104,6 +104,13 @@ const MeetingRoom = () => {
   const [minuteFiles, setMinuteFiles] = useState<MeetingDocument[]>(metadata.minuteFiles);
   const meetingLink = `${getAppBaseUrl()}/meeting/${call?.id}`;
   const meetingTitle = metadata.description || 'Meeting';
+  const meetingMemberIds = useMemo(
+    () =>
+      call?.state.members
+        .map((member) => member.user.id)
+        .filter(Boolean) || [],
+    [call?.state.members],
+  );
 
   useEffect(() => {
     if (!call || callingState !== CallingState.JOINED) return;
@@ -463,11 +470,19 @@ const MeetingRoom = () => {
               </div>
             </div>
 
-            {/* Chat */}
-            {showChat && <ChatComponent meetingId={call.id} onClose={() => setShowChat(false)} />}
           </aside>
         </div>
       </div>
+
+      {showChat && (
+        <div className="fixed inset-x-3 bottom-[92px] z-50 h-[min(620px,calc(100vh-128px))] rounded-2xl border border-white/10 bg-[#080f1c]/95 p-2 shadow-2xl shadow-black/50 backdrop-blur-xl sm:inset-x-auto sm:right-4 sm:w-[420px] lg:bottom-24">
+          <ChatComponent
+            meetingId={call.id}
+            memberIds={meetingMemberIds}
+            onClose={() => setShowChat(false)}
+          />
+        </div>
+      )}
 
       {/* Controls Bar */}
       <div className="border-t border-white/10 bg-[#08101d] p-3 lg:p-4">
