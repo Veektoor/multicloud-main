@@ -6,7 +6,7 @@ import Sidebar from '@/components/Sidebar';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'MoMEET',
+  title: 'MoMeet',
   description: 'A workspace for your team, powered by Stream Chat and Clerk.',
 };
 

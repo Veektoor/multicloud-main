@@ -18,6 +18,7 @@ import { LayoutList, MessageCircle, Users, Share2 } from 'lucide-react';
 
 import { getAppBaseUrl } from '@/lib/browser';
 import { formatNairobiDateTime } from '@/lib/datetime';
+import { validateFileName, validateFileSize } from '@/lib/validation';
 import {
   archiveMeeting,
   archiveProcessingRecording,
@@ -216,7 +217,12 @@ const MeetingRoom = () => {
     const file = event.target.files?.[0];
 
     if (!file || !isModerator) return;
-    if (file.size > 2 * 1024 * 1024) {
+    if (!validateFileName(file.name)) {
+      toast({ title: 'Rename the file and remove special characters' });
+      event.target.value = '';
+      return;
+    }
+    if (!validateFileSize(file.size, 2)) {
       toast({ title: 'Use files under 2MB' });
       event.target.value = '';
       return;
@@ -300,7 +306,7 @@ const MeetingRoom = () => {
       {/* Header with Meeting Info and Share Button */}
       <div className="border-b border-white/10 bg-[#0b1020]/95 px-4 py-3 backdrop-blur-xl lg:px-6">
         <div className="mx-auto flex max-w-[1600px] items-center justify-between gap-4">
-          <div className="flex items-center gap-4 flex-1 min-w-0">
+          <div className="flex min-w-0 flex-1 items-center gap-4">
             <h1 className="truncate text-lg font-semibold lg:text-xl">{meetingTitle}</h1>
             <RecordingIndicator isRecording={isRecording} />
           </div>
@@ -313,7 +319,8 @@ const MeetingRoom = () => {
           </button>
           <button
             onClick={() => setShowShareModal(true)}
-            className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-2 py-2 transition hover:bg-white/10 sm:hidden"
+            aria-label="Share meeting"
+            className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 p-2 transition hover:bg-white/10 sm:hidden"
           >
             <Share2 size={16} />
           </button>
@@ -326,7 +333,7 @@ const MeetingRoom = () => {
           {/* Video Area */}
           <div className="flex min-h-0 flex-col gap-3 lg:gap-4">
             {/* Meeting Title Card - Mobile */}
-            <div className="hidden max-lg:block rounded-2xl border border-white/10 bg-[#0f1729] px-4 py-3">
+            <div className="hidden rounded-2xl border border-white/10 bg-[#0f1729] px-4 py-3 max-lg:block">
               <MeetingInfo meetingLink={meetingLink} meetingTitle={meetingTitle} />
             </div>
 
@@ -337,7 +344,7 @@ const MeetingRoom = () => {
 
             {/* Participants List - Mobile */}
             {showParticipants && (
-              <div className="hidden max-lg:block rounded-2xl border border-white/10 bg-[#0f1729] p-4">
+              <div className="hidden rounded-2xl border border-white/10 bg-[#0f1729] p-4 max-lg:block">
                 <CallParticipantsList onClose={() => setShowParticipants(false)} />
               </div>
             )}
@@ -357,7 +364,7 @@ const MeetingRoom = () => {
                     !canManageRecording || !isRecordingConfigured || isRecordingActionPending
                   }
                   onClick={toggleRecording}
-                  className="w-full rounded-lg bg-white px-4 py-2 text-sm font-medium text-slate-950 transition disabled:cursor-not-allowed disabled:bg-slate-600 hover:bg-white/90"
+                  className="w-full rounded-lg bg-white px-4 py-2 text-sm font-medium text-slate-950 transition hover:bg-white/90 disabled:cursor-not-allowed disabled:bg-slate-600"
                 >
                   {isRecordingActionPending
                     ? 'Updating...'
@@ -391,6 +398,7 @@ const MeetingRoom = () => {
                     <input
                       ref={minuteFileInputRef}
                       type="file"
+                      accept=".doc,.docx,.pdf,.txt,.md,.csv,.xlsx,.xls"
                       className="hidden"
                       onChange={handleMinutesUpload}
                     />
@@ -405,7 +413,7 @@ const MeetingRoom = () => {
                 )}
               </div>
 
-              <div className="space-y-2 max-h-[150px] overflow-y-auto">
+              <div className="max-h-[150px] space-y-2 overflow-y-auto">
                 {minuteFiles.length > 0 ? (
                   minuteFiles.map((document, index) => (
                     <a
@@ -414,8 +422,8 @@ const MeetingRoom = () => {
                       download={document.name}
                       className="block rounded-lg border border-white/10 p-2 text-xs transition hover:bg-white/5"
                     >
-                      <p className="truncate text-white font-medium">{document.name}</p>
-                      <p className="text-xs text-slate-500 mt-0.5">
+                      <p className="truncate font-medium text-white">{document.name}</p>
+                      <p className="mt-0.5 text-xs text-slate-500">
                         {document.uploadedBy}
                       </p>
                     </a>
@@ -435,6 +443,7 @@ const MeetingRoom = () => {
                     <input
                       ref={fileInputRef}
                       type="file"
+                      accept=".doc,.docx,.pdf,.txt,.md,.csv,.xlsx,.xls,.ppt,.pptx,.png,.jpg,.jpeg"
                       className="hidden"
                       onChange={handleDocumentUpload}
                     />
@@ -449,7 +458,7 @@ const MeetingRoom = () => {
                 )}
               </div>
 
-              <div className="space-y-2 max-h-[150px] overflow-y-auto">
+              <div className="max-h-[150px] space-y-2 overflow-y-auto">
                 {documents.length > 0 ? (
                   documents.map((document, index) => (
                     <a
@@ -458,8 +467,8 @@ const MeetingRoom = () => {
                       download={document.name}
                       className="block rounded-lg border border-white/10 p-2 text-xs transition hover:bg-white/5"
                     >
-                      <p className="truncate text-white font-medium">{document.name}</p>
-                      <p className="text-xs text-slate-500 mt-0.5">
+                      <p className="truncate font-medium text-white">{document.name}</p>
+                      <p className="mt-0.5 text-xs text-slate-500">
                         {document.uploadedBy}
                       </p>
                     </a>

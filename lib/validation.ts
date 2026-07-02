@@ -9,8 +9,15 @@ export const validateEmail = (email: string): boolean => {
 
 export const validateMeetingLink = (link: string): boolean => {
   try {
-    const url = new URL(link);
-    return url.pathname.includes('/meeting/');
+    const url = new URL(link, 'https://momeet.local');
+    const parts = url.pathname.split('/').filter(Boolean);
+    const meetingIndex = parts.indexOf('meeting');
+
+    return Boolean(
+      meetingIndex !== -1 &&
+        parts[meetingIndex + 1] &&
+        /^[a-zA-Z0-9_-]+$/.test(parts[meetingIndex + 1]),
+    );
   } catch {
     return false;
   }
@@ -38,10 +45,14 @@ export const validateFileName = (fileName: string): boolean => {
 
 export const getMeetingIdFromLink = (link: string): string | null => {
   try {
-    const url = new URL(link);
-    const parts = url.pathname.split('/');
+    const url = new URL(link, 'https://momeet.local');
+    const parts = url.pathname.split('/').filter(Boolean);
     const meetingIndex = parts.indexOf('meeting');
-    if (meetingIndex !== -1 && meetingIndex + 1 < parts.length) {
+    if (
+      meetingIndex !== -1 &&
+      meetingIndex + 1 < parts.length &&
+      /^[a-zA-Z0-9_-]+$/.test(parts[meetingIndex + 1])
+    ) {
       return parts[meetingIndex + 1];
     }
   } catch {

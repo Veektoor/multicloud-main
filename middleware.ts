@@ -1,5 +1,5 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 const protectedRoute = createRouteMatcher([
   '/',
@@ -19,13 +19,14 @@ export default clerkMiddleware(async (auth, req) => {
   // Protect routes that require authentication
   if (protectedRoute(req)) await auth.protect();
 
-  // Add security headers
-  const headers = new Headers();
+  // Add security headers without blocking first-party video meetings.
+  const response = NextResponse.next();
+  const headers = response.headers;
   headers.set('X-Content-Type-Options', 'nosniff');
   headers.set('X-Frame-Options', 'DENY');
   headers.set('X-XSS-Protection', '1; mode=block');
   headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  headers.set('Permissions-Policy', 'camera=(), microphone=()');
+  headers.set('Permissions-Policy', 'camera=(self), microphone=(self), geolocation=()');
 
   // Rate limiting for API routes
   if (req.nextUrl.pathname.startsWith('/api/')) {
@@ -50,6 +51,8 @@ export default clerkMiddleware(async (auth, req) => {
       );
     }
   }
+
+  return response;
 });
 
 export const config = {

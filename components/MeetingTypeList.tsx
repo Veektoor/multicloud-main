@@ -59,8 +59,7 @@ const MeetingTypeList = () => {
       return;
     }
 
-    // Check if it's a valid meeting link format
-    if (!validateMeetingLink(values.link) && !values.link.includes('meeting')) {
+    if (!validateMeetingLink(values.link)) {
       setLinkError('Invalid meeting link format');
       return;
     }
@@ -76,13 +75,14 @@ const MeetingTypeList = () => {
   };
 
   const createMeeting = async () => {
-    if (!client || !user) return;
+    if (!client || !user || isCreating) return;
 
     try {
       setIsCreating(true);
+      const description = values.description.trim();
 
       // Validate meeting title
-      if (meetingState === 'isScheduleMeeting' && !values.description.trim()) {
+      if (meetingState === 'isScheduleMeeting' && !description) {
         toast({ title: 'Please enter a meeting title' });
         return;
       }
@@ -106,7 +106,7 @@ const MeetingTypeList = () => {
 
       const startsAt =
         values.dateTime.toISOString() || new Date(Date.now()).toISOString();
-      const description = values.description || 'MoMEET Meeting';
+      const meetingDescription = description || 'MoMeet Meeting';
       const agenda = '1. Review priorities\n2. Discuss blockers\n3. Confirm next actions';
       const minutes = 'Decisions\n- \n\nAction items\n- \n\nRisks\n- ';
 
@@ -114,7 +114,7 @@ const MeetingTypeList = () => {
         data: {
           starts_at: startsAt,
           custom: buildMeetingCustomData({
-            description,
+            description: meetingDescription,
             agenda,
             minutes,
             minutesOwner:
@@ -202,6 +202,7 @@ const MeetingTypeList = () => {
           title="Schedule a Meeting"
           handleClick={createMeeting}
           buttonText={isCreating ? 'Creating...' : 'Create Meeting'}
+          buttonDisabled={isCreating}
         >
           <div className="grid gap-4">
             <div className="flex flex-col gap-2.5">
@@ -212,10 +213,11 @@ const MeetingTypeList = () => {
                 className="border border-white/10 bg-dark-3 focus-visible:ring-2 focus-visible:ring-blue-1 focus-visible:ring-offset-0"
                 value={values.description}
                 onChange={(e) =>
-                  setValues({ ...values, description: e.target.value })
+                  setValues({ ...values, description: e.target.value.slice(0, 100) })
                 }
                 placeholder="e.g. Weekly Sync, Product Review"
                 disabled={isCreating}
+                maxLength={100}
               />
               {values.description && (
                 <p className="text-xs text-slate-400">
@@ -230,7 +232,9 @@ const MeetingTypeList = () => {
               </label>
               <ReactDatePicker
                 selected={values.dateTime}
-                onChange={(date) => setValues({ ...values, dateTime: date! })}
+                onChange={(date) => {
+                  if (date) setValues({ ...values, dateTime: date });
+                }}
                 showTimeSelect
                 timeFormat="HH:mm"
                 timeIntervals={15}
@@ -363,7 +367,7 @@ const MeetingTypeList = () => {
               setLinkError('');
             }}
             className="border border-white/10 bg-dark-3 focus-visible:ring-2 focus-visible:ring-blue-1 focus-visible:ring-offset-0"
-            onKeyPress={(e) => {
+            onKeyDown={(e) => {
               if (e.key === 'Enter') {
                 validateAndJoinMeeting();
               }
@@ -389,6 +393,7 @@ const MeetingTypeList = () => {
         className="text-center"
         buttonText={isCreating ? 'Starting...' : 'Start Meeting'}
         handleClick={createMeeting}
+        buttonDisabled={isCreating}
       >
         <div className="space-y-3 text-sm text-slate-300">
           <p>Create a meeting right now and start collaborating immediately.</p>
